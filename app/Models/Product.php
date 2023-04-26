@@ -4,30 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
     use HasFactory;
-    use HasSlug;
-    use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'price', 'image', 'published', 'image_mime', 'image_size', 'created_by', 'updated_by'];
-
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions() : SlugOptions
+    public function formattedPrice()
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug');
+        return '$' . number_format( $this->price / 100, 2);
     }
 
-    public function getRouteKeyName()
+    public function scopeMightAlsoLike($query)
     {
-        return 'slug';
+        return $query->inRandomOrder()->take(4);
     }
 }
