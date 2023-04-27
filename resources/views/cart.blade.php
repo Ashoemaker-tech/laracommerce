@@ -32,87 +32,42 @@
     <div class="cart-section container">
         
         <div>
-            @if (ShoppingCart::count() > 0)
-            <h2>{{ ShoppingCart::count() }} items in Shopping Cart</h2>
+            @if (Cart::count() > 0)
+            <h2>{{ Cart::count() }} items in Shopping Cart</h2>
 
             <div class="cart-table">
-                <div class="cart-table-row">
-                    <div class="cart-table-row-left">
-                        <a href="#"><img src="/img/macbook-pro.png" alt="item" class="cart-table-img"></a>
-                        <div class="cart-item-details">
-                            <div class="cart-table-item"><a href="#">MacBook Pro</a></div>
-                            <div class="cart-table-description">15 inch, 1TB SSD, 32GB RAM</div>
+                @foreach ($cartItems as $cartItem)
+                    <div class="cart-table-row">
+                        <div class="cart-table-row-left">
+                            <a href="{{ route('shop.show', $cartItem->slug) }}"><img src="{{ asset('img/products/'.$cartItem->slug.'.jpg') }}" alt="item" class="cart-table-img"></a>
+                            <div class="cart-item-details">
+                                <div class="cart-table-item"><a href="{{ route('shop.show', $cartItem->slug) }}">{{ $cartItem->name }}</a></div>
+                                <div class="cart-table-description">{{ $cartItem->details }}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="cart-table-row-right">
-                        <div class="cart-table-actions">
-                            <a href="#">Remove</a> <br>
-                            <a href="#">Save for Later</a>
+                        <div class="cart-table-row-right">
+                            <div class="cart-table-actions">
+                                {{-- <a href="#">Remove</a> <br> --}}
+                                <form action="{{ route('cart.destroy', $cartItem->id) }}" method="POST">
+                                   @csrf
+                                   @method('delete') 
+                                   <button type="submit" class="cart-options">Remove</button>
+                                </form>
+                                <a href="#">Save for Later</a>
+                            </div>
+                            <div>
+                                <select class="quantity">
+                                    <option selected="">1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <div>{{ $subtotal }}</div>
                         </div>
-                        <div>
-                            <select class="quantity">
-                                <option selected="">1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div>$2499.99</div>
-                    </div>
-                </div> <!-- end cart-table-row -->
-
-                <div class="cart-table-row">
-                    <div class="cart-table-row-left">
-                        <a href="#"><img src="/img/macbook-pro.png" alt="item" class="cart-table-img"></a>
-                        <div class="cart-item-details">
-                            <div class="cart-table-item"><a href="#">MacBook Pro</a></div>
-                            <div class="cart-table-description">15 inch, 1TB SSD, 32GB RAM</div>
-                        </div>
-                    </div>
-                    <div class="cart-table-row-right">
-                        <div class="cart-table-actions">
-                            <a href="#">Remove</a> <br>
-                            <a href="#">Save for Later</a>
-                        </div>
-                        <div>
-                            <select class="quantity">
-                                <option selected="">1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div>$2499.99</div>
-                    </div>
-                </div> <!-- end cart-table-row -->
-
-                <div class="cart-table-row">
-                    <div class="cart-table-row-left">
-                        <a href="#"><img src="/img/macbook-pro.png" alt="item" class="cart-table-img"></a>
-                        <div class="cart-item-details">
-                            <div class="cart-table-item"><a href="#">MacBook Pro</a></div>
-                            <div class="cart-table-description">15 inch, 1TB SSD, 32GB RAM</div>
-                        </div>
-                    </div>
-                    <div class="cart-table-row-right">
-                        <div class="cart-table-actions">
-                            <a href="#">Remove</a> <br>
-                            <a href="#">Save for Later</a>
-                        </div>
-                        <div>
-                            <select class="quantity">
-                                <option selected="">1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <div>$2499.99</div>
-                    </div>
-                </div> <!-- end cart-table-row -->
+                    </div> <!-- end cart-table-row -->
+                @endforeach
 
                 @else
                     <h3>No items in cart</h3>
@@ -141,9 +96,9 @@
                         <span class="cart-totals-total">Total</span>
                     </div>
                     <div class="cart-totals-subtotal">
-                        $7499.97 <br>
-                        $975.00 <br>
-                        <span class="cart-totals-total">$8474.97</span>
+                        {{ formattedPrice(Cart::subtotal()) }} <br>
+                        {{ Cart::tax() }} <br>
+                        <span class="cart-totals-total">{{ Cart::total() }}</span>
                     </div>
                 </div>
             </div> <!-- end cart-totals -->

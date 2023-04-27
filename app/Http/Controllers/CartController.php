@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Ankurk91\LaravelShoppingCart\Facades\ShoppingCart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
 {
@@ -14,7 +14,19 @@ class CartController extends Controller
     public function index()
     {
         $mightAlsoLike = Product::MightAlsoLike()->get();
-        return view('cart')->with('mightAlsoLike', $mightAlsoLike);
+        $cartItems = [];
+        foreach(Cart::content() as $item) {
+            $product = Product::find($item->id);
+            array_push($cartItems, $product);
+        }
+            $subtotal = Cart::subtotal();
+        // $subtotal =  number_format( $subtotal / 100, 2);
+        // dd(ShoppingCart::all());
+        return view('cart', [
+            'mightAlsoLike' => $mightAlsoLike,
+            'subtotal' => $subtotal,
+            'cartItems' => $cartItems
+        ]);
     }
 
     /**
@@ -30,8 +42,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        ShoppingCart::add($request->id, $request->name, 1, $request->price);
-
+        Cart::add($request->id, $request->name, 1, $request->price);
         return redirect()->route('cart.index')->with('success_message', 'Item added to cart');
     }
 
@@ -64,6 +75,8 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Cart::remove($id);
+
+        return back()->with('success_message', 'Item removed from cart');
     }
 }
