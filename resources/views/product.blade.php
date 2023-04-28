@@ -42,6 +42,8 @@
                 <input type="hidden" name="id" value="{{ $product->id }}">
                 <input type="hidden" name="name" value="{{ $product->name }}">
                 <input type="hidden" name="price" value="{{ $product->price }}">
+                <input type="hidden" name="slug" value="{{ $product->slug }}">
+                <input type="hidden" name="details" value="{{ $product->details }}">
                 <button type="submit" class="button button-plain">Add To Cart</button>
             </form>
         </div>
