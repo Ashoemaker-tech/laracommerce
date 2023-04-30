@@ -23,5 +23,6 @@ Route::delete('/wishlist/{product}', [WishListController::class, 'destroy'])->na
 Route::post('/wishlist/tocart/{product}', [WishListController::class, 'update'])->name('wishlist.tocart');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::view('/thankyou', 'thankyou');

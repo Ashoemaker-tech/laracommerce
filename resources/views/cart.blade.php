@@ -67,7 +67,7 @@
                                     <option>5</option>
                                 </select>
                             </div>
-                            <div>{{ $cartItem->price }}</div>
+                            <div>{{ formattedPrice($cartItem->price) }}</div>
                         </div>
                     </div> <!-- end cart-table-row -->
                 @endforeach
@@ -93,9 +93,9 @@
                         <span class="cart-totals-total">Total</span>
                     </div>
                     <div class="cart-totals-subtotal">
-                        {{ Cart::subtotal() }} <br>
-                        {{ Cart::tax() }} <br>
-                        <span class="cart-totals-total">{{ Cart::total() }}</span>
+                        {{ formattedTotal(Cart::subtotal()) }} <br>
+                        {{ formattedTotal(Cart::tax()) }} <br>
+                        <span class="cart-totals-total">{{ formattedTotal(Cart::total()) }}</span>
                     </div>
                 </div>
             </div> <!-- end cart-totals -->

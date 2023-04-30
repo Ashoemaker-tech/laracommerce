@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Error;
+use Exception;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
@@ -25,10 +30,27 @@ class CheckoutController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Stipe client to communicate with server
      */
     public function store(Request $request)
     {
-        //
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        try {
+            $paymentIntent = PaymentIntent::create([
+                "amount" => Cart::total(),
+                "currency" => "USD",
+            ]); 
+            $output = [
+            'clientSecret' => $paymentIntent->client_secret,
+            ];
+
+            return json_encode($output);
+            // Successfull Payment
+            // return back()->with('success_message', 'Thank You. Your payment was successful');
+        } catch (Error $e) {
+            dd($e);
+        }
+        
     }
 
     /**
