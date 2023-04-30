@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\WishListController;
@@ -25,4 +26,4 @@ Route::post('/wishlist/tocart/{product}', [WishListController::class, 'update'])
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
-Route::view('/thankyou', 'thankyou');
+Route::get('/thankyou', [ConfirmationController::class, 'index'])->name('thankyou');

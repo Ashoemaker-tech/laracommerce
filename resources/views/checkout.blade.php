@@ -18,10 +18,6 @@
                     <h2>Billing Details</h2>
 
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="">
-                    </div>
-                    <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="">
                     </div>
@@ -55,11 +51,11 @@
                     <div class="spacer"></div>
 
                     <h2>Payment Details</h2>
-                        <div class="form-group">
-                            <label for="card-name">Name On Card</label>
-                            <input type="text" class="form-control" id="card-name" name="card-name" value="">
-                        </div>
-                    <div id="card-element">
+                    <div class="form-group">
+                        <label for="card-name">Name On Card</label>
+                        <input type="text" class="form-control" id="card-name" name="card-name" value="">
+                    </div>
+                     <div id="card-element">
                         <!--Stripe.js injects the Card Element-->
                     </div>
                     <div class="spacer"></div>
@@ -93,35 +89,34 @@
                                 </div>
                             </div> <!-- end checkout-table -->
 
-                    <div class="checkout-table-row-right">
-                        <div class="checkout-table-quantity">{{ $item->qty }}</div>
+                            <div class="checkout-table-row-right">
+                                <div class="checkout-table-quantity">{{ $item->qty }}</div>
+                            </div>
+                        </div> <!-- end checkout-table-row -->
+                    @endforeach
+                </div> <!-- end checkout-table -->
+
+                <div class="checkout-totals">
+                    <div class="checkout-totals-left">
+                        Subtotal <br>
+                        {{-- Discount (10OFF - 10%) <br> --}}
+                        Tax <br>
+                        <span class="checkout-totals-total">Total</span>
+
                     </div>
-                </div> <!-- end checkout-table-row -->
 
-                @endforeach
-            </div> <!-- end checkout-table -->
+                    <div class="checkout-totals-right">
+                        {{ formattedTotal(Cart::subtotal()) }} <br>
+                        {{-- -$750.00 <br> --}}
+                        {{ formattedTotal(Cart::tax()) }} <br>
+                        <span class="checkout-totals-total">{{ formattedTotal(Cart::total()) }}</span>
 
-            <div class="checkout-totals">
-                <div class="checkout-totals-left">
-                    Subtotal <br>
-                    {{-- Discount (10OFF - 10%) <br> --}}
-                    Tax <br>
-                    <span class="checkout-totals-total">Total</span>
+                    </div>
+                </div> <!-- end checkout-totals -->
 
-                </div>
+            </div>
 
-                <div class="checkout-totals-right">
-                    {{ formattedTotal(Cart::subtotal()) }} <br>
-                    {{-- -$750.00 <br> --}}
-                    {{ formattedTotal(Cart::tax()) }} <br>
-                    <span class="checkout-totals-total">{{ formattedTotal(Cart::total()) }}</span>
-
-                </div>
-            </div> <!-- end checkout-totals -->
-
-        </div>
-
-    </div> <!-- end checkout-section -->
+        </div> <!-- end checkout-section -->
     </div>
 
 @endsection

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Error;
-use Exception;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Illuminate\Http\Request;
@@ -35,22 +33,26 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
-        try {
+        $contents = Cart::content()->map(function($item) {
+            return $item->options->slug.', '.$item->qty;
+        })->values()->toJson();
+
             $paymentIntent = PaymentIntent::create([
                 "amount" => Cart::total(),
                 "currency" => "USD",
+                "description" => 'Order',
+                "reciept_email" => $request->email,
+                "metadata" => [
+                    "contents" => $contents,
+                    "quantity" => Cart::instance('default')->content()->count()
+                ]
             ]); 
             $output = [
             'clientSecret' => $paymentIntent->client_secret,
             ];
-
+            session()->put('payment_successful', true);
+            // Successful connection
             return json_encode($output);
-            // Successfull Payment
-            // return back()->with('success_message', 'Thank You. Your payment was successful');
-        } catch (Error $e) {
-            dd($e);
-        }
-        
     }
 
     /**
