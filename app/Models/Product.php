@@ -9,13 +9,18 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function formattedPrice()
-    {
-        // return '$' . number_format( $this->price / 100, 2, '.', ',');
-    }
+    public function variations()
+	{
+		return $this->hasMany(Variation::class);
+	}
 
-    public function scopeMightAlsoLike($query)
-    {
-        return $query->inRandomOrder()->take(4);
-    }
+	public function image()
+	{
+		return $this->hasMany(ProductImage::class);
+	}
+
+	public function categories()
+	{
+		return $this->belongsToMany(Category::class);
+	}
 }

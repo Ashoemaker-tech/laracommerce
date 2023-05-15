@@ -5,15 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProductsTableSeeder extends Seeder
+class VariationsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        //
-
-        // GET This INFO FROM OTHER REPO
+        // GET from other repo
     }
 }
