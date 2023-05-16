@@ -21,15 +21,23 @@ class ProductImagesTableSeeder extends Seeder
         // TODO add some public image urls from fake store api
         $images = [
             [
-                'url' => 'product1.jpg',
+                'url' => 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
                 'is_main' => true,
             ],
             [
-                'url' => 'product2.jpg',
+                'url' => 'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
                 'is_main' => false,
             ],
             [
-                'url' => 'product3.jpg',
+                'url' => 'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',
+                'is_main' => false,
+            ],
+            [
+                'url' => 'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',
+                'is_main' => false,
+            ],
+            [
+                'url' => 'https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg',
                 'is_main' => false,
             ],
         ];
